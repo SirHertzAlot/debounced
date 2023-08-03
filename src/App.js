@@ -1,4 +1,5 @@
 import React, {Component, createRef} from "react";
+import debounce from "lodash.debounce";
 import getBooks from "./db";
 import BookCard from "./BookCard";
 
@@ -8,7 +9,7 @@ class App extends Component {
     results: [],
     selectedBook: null
   };
-  searchBooks = keyword => {
+  searchBooks = debounce(keyword => {
     console.log(`Searching for ${keyword}`);
     if (keyword !== "") {
       const getTitles = getBooks(keyword);
@@ -20,7 +21,7 @@ class App extends Component {
         results: []
       });
     }
-  };
+  }, 400)
   clear = () => {
     this.searchRef.current.value = "";
     this.setState({results: []});
